@@ -133,6 +133,7 @@ export default {
           labelAfterRules: codeRule
         };
         normalData.push(item);
+
         if (type === "SNMPclient") {
           this.form.SNMPclient = "";
         } else if (type === "SNMPcode") {

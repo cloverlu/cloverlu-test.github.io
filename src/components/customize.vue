@@ -50,6 +50,7 @@ export default {
     return {
       cusData: [],
       storeList: [],
+      storeListAll: [],
       form: {
         cusData: []
       }
@@ -57,12 +58,14 @@ export default {
   },
   mounted() {
     this.form.cusData = this.dataList;
+    this.storeListAll = JSON.parse(JSON.stringify(this.form.cusData));
   },
   watch: {
     dataList: {
       immediate: true,
       handler(val) {
         this.form.cusData = val;
+        this.storeListAll = JSON.parse(JSON.stringify(val));
       }
     },
     rander: {
@@ -88,11 +91,16 @@ export default {
       // 储存修改之前的值，为取消修改做准备
       this.storeList = JSON.parse(JSON.stringify(this.form.cusData));
       this.$emit("storeList", this.storeList);
-
       if (this.form.cusData.length > 0) {
-        this.form.cusData.map(e => {
+        this.form.cusData.map((e, i) => {
           if (e.edit === true) {
             e.edit = !e.edit;
+            e.label = this.storeListAll[i].label;
+            e.labelFormer = this.storeListAll[i].labelFormer;
+            e.labelAfter = this.storeListAll[i].labelAfter;
+            this.$nextTick(() => {
+              this.$refs["form"].clearValidate();
+            });
           }
         });
       }
