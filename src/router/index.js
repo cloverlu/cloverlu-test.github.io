@@ -1,14 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import addListIndex from "../views/addList/index.vue";
+// import addListIndex from "../views/addList/index.vue";
+import testUnload from "../views/testUoload/index.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/index",
     name: "Home",
-    component: addListIndex
+    component: testUnload
   }
 ];
 
