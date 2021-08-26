@@ -1,18 +1,18 @@
 <template lang="pug">
 	.customize
 		ul
-			el-form(:model="form"  ref="form")
+			el-form(:model="form"  ref="form" )
 				li(v-for="(item,index) in form.cusData" :key="index" :class="item.edit ? 'is-active' :'' ")
 					.iplist(:class="item.edit ? 'edit-true' :'' " v-if="!item.combine")
 						span(v-if="!item.edit") {{item.label}} 
-						el-form-item(:prop="'cusData.'+index+'.label'" :ref="index+'.label'"  :rules="item.rules")
+						el-form-item(:prop="'cusData.'+index+'.label'" :ref="index+'.label'"  :rules="item.rules" )
 							el-input(class="bigin" v-model="item.label" size="mini" v-if="item.edit" @keyup.native.enter="yes(item,index)") 
 					.iplist(:class="item.edit ? 'edit-true flexip' :'' " v-if="item.combine")
 						span(v-if="!item.edit") {{item.label}}
 						el-form-item(:prop="'cusData.'+index+'.labelFormer'" :ref="index+'.labelFormer'" :rules="item.labelFormerRules")
 							el-input(class="smallin" v-model="item.labelFormer" size="mini" v-if="item.edit")
 						span(v-if="item.edit") /
-						el-form-item(:prop="'cusData.'+index+'.labelAfter'" :ref="index+'.labelAfter'" :rules="item.labelAfterRules")
+						el-form-item(:prop="'cusData.'+index+'.labelAfter'" :ref="index+'.labelAfter'" :rules="item.labelAfterRules" )
 							el-input(class="smallin" v-model="item.labelAfter" size="mini" v-if="item.edit" @keyup.native.enter="yes(item,index)")
 					.ip-operate
 						.handle-group(v-show="!item.edit")
@@ -145,6 +145,8 @@ export default {
         type: type,
         index: index
       };
+      cusData.splice(index, 1, ...cusData.splice(index - 1, 1, cusData[index]));
+      this.storeListAll = cusData;
       this.$emit("up", data);
     },
     // 下移
@@ -154,6 +156,8 @@ export default {
         type: type,
         index: index
       };
+      cusData.splice(index, 1, ...cusData.splice(index + 1, 1, cusData[index]));
+      this.storeListAll = cusData;
       this.$emit("down", data);
     }
   }
