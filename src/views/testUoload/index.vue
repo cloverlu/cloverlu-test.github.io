@@ -13,18 +13,19 @@
 export default {
   mounted() {
     // 注册onbeforeunload
-		let title  = ''
-		if(this.IsPC()){
-			title = 'pc'
-		}else {
-			if(this.isIos()){
-				title = 'ios'
-			}else {
-				title = 'Android'
-			}
-		}
+    let title = "";
+    if (this.IsPC()) {
+      title = "pc";
+    } else {
+      if (this.isIos()) {
+        title = "ios";
+      } else {
+        title = "Android";
+      }
+    }
     if (window.onbeforeunload) {
-      window.onbeforeunload = () => this.leaveRadar(`${title}:window.onbeforeunload`);
+      window.onbeforeunload = () =>
+        this.leaveRadar(`${title}:window.onbeforeunload`);
       return false;
     } else if (window.addEventListener) {
       window.addEventListener("beforeunload", () =>
@@ -32,57 +33,68 @@ export default {
       );
       return false;
     } else if (window.attachEvent) {
-      window.attachEvent("beforeunload", () =>  this.leaveRadar(`${title}:window.attachEvent:beforeunload`));
+      window.attachEvent("beforeunload", () =>
+        this.leaveRadar(`${title}:window.attachEvent:beforeunload`)
+      );
       return false;
     }
 
-		// 注册onpagehide
-		if (window.onpagehide) {
-			window.onpagehide = () => this.leaveRadar(`${title}:window.onpagehide`)
-			return false
-		} else if (window.addEventListener) {
-			
-			window.addEventListener('pagehide', () => this.leaveRadar(`${title}:pagehide`))
-		} else if (window.attachEvent) {
-			window.attachEvent('pagehide', () => this.leaveRadar(`${title}:window.attachEvent:pagehide`))
-		}
+    // 注册onpagehide
+    if (window.onpagehide) {
+      window.onpagehide = () => this.leaveRadar(`${title}:window.onpagehide`);
+      return false;
+    } else if (window.addEventListener) {
+      window.addEventListener("pagehide", () =>
+        this.leaveRadar(`${title}:pagehide`)
+      );
+    } else if (window.attachEvent) {
+      window.attachEvent("pagehide", () =>
+        this.leaveRadar(`${title}:window.attachEvent:pagehide`)
+      );
+    }
 
-		 document.addEventListener('visibilitychange', () => this.leaveRadar(`${title}:visibilitychange`))
-	
+    document.addEventListener("visibilitychange", () =>
+      this.leaveRadar(`${title}:visibilitychange`)
+    );
   },
   methods: {
-		// 判断当前设备
+    // 判断当前设备
     IsPC() {
-      var userAgentInfo = navigator.userAgent
-      var Agents = ['Android', 'iPhone',
-        'SymbianOS', 'Windows Phone',
-        'iPad', 'iPod']
-      var flag = true
+      var userAgentInfo = navigator.userAgent;
+      var Agents = [
+        "Android",
+        "iPhone",
+        "SymbianOS",
+        "Windows Phone",
+        "iPad",
+        "iPod"
+      ];
+      var flag = true;
       for (var v = 0; v < Agents.length; v++) {
         if (userAgentInfo.indexOf(Agents[v]) > 0) {
-          flag = false
-          break
+          flag = false;
+          break;
         }
       }
-      return flag
+      return flag;
     },
-    isIos() { // 判断是IOS还是Android
-      var userAgent = navigator.userAgent
-      var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1 // android终端
-      var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
+    isIos() {
+      // 判断是IOS还是Android
+      var userAgent = navigator.userAgent;
+      var isAndroid =
+        userAgent.indexOf("Android") > -1 || userAgent.indexOf("Adr") > -1; // android终端
+      var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); // ios终端
       if (isAndroid) {
-        return false
+        return false;
       } else if (isiOS) {
-        return true
+        return true;
       }
     },
     // 雷达离开
     leaveRadar(msg) {
-      
-        const url = `https://api.day.app/6FV2VEzGMi6yrL4EzFoah7/${msg}`;
-        // const params = ``
-        navigator.sendBeacon(url);
-      }
+      const url = `https://api.day.app/6FV2VEzGMi6yrL4EzFoah7/${msg}`;
+      // const params = ``
+      navigator.sendBeacon(url);
     }
   }
 };
