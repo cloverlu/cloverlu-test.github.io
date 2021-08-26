@@ -1,18 +1,18 @@
 <template lang="pug">
 	.customize
 		ul
-			el-form(:model="form"  ref="form")
+			el-form(:model="form"  ref="form" )
 				li(v-for="(item,index) in form.cusData" :key="index" :class="item.edit ? 'is-active' :'' ")
 					.iplist(:class="item.edit ? 'edit-true' :'' " v-if="!item.combine")
 						span(v-if="!item.edit") {{item.label}} 
-						el-form-item(:prop="'cusData.'+index+'.label'" :ref="index+'.label'"  :rules="item.rules")
+						el-form-item(:prop="'cusData.'+index+'.label'" :ref="index+'.label'"  :rules="item.rules" )
 							el-input(class="bigin" v-model="item.label" size="mini" v-if="item.edit" @keyup.native.enter="yes(item,index)") 
 					.iplist(:class="item.edit ? 'edit-true flexip' :'' " v-if="item.combine")
 						span(v-if="!item.edit") {{item.label}}
 						el-form-item(:prop="'cusData.'+index+'.labelFormer'" :ref="index+'.labelFormer'" :rules="item.labelFormerRules")
 							el-input(class="smallin" v-model="item.labelFormer" size="mini" v-if="item.edit")
 						span(v-if="item.edit") /
-						el-form-item(:prop="'cusData.'+index+'.labelAfter'" :ref="index+'.labelAfter'" :rules="item.labelAfterRules")
+						el-form-item(:prop="'cusData.'+index+'.labelAfter'" :ref="index+'.labelAfter'" :rules="item.labelAfterRules" )
 							el-input(class="smallin" v-model="item.labelAfter" size="mini" v-if="item.edit" @keyup.native.enter="yes(item,index)")
 					.ip-operate
 						.handle-group(v-show="!item.edit")
@@ -50,6 +50,7 @@ export default {
     return {
       cusData: [],
       storeList: [],
+      storeListAll: [],
       form: {
         cusData: []
       }
@@ -57,12 +58,14 @@ export default {
   },
   mounted() {
     this.form.cusData = this.dataList;
+    this.storeListAll = JSON.parse(JSON.stringify(this.form.cusData));
   },
   watch: {
     dataList: {
       immediate: true,
       handler(val) {
         this.form.cusData = val;
+        this.storeListAll = JSON.parse(JSON.stringify(val));
       }
     },
     rander: {
@@ -88,11 +91,16 @@ export default {
       // 储存修改之前的值，为取消修改做准备
       this.storeList = JSON.parse(JSON.stringify(this.form.cusData));
       this.$emit("storeList", this.storeList);
-
       if (this.form.cusData.length > 0) {
-        this.form.cusData.map(e => {
+        this.form.cusData.map((e, i) => {
           if (e.edit === true) {
             e.edit = !e.edit;
+            e.label = this.storeListAll[i].label;
+            e.labelFormer = this.storeListAll[i].labelFormer;
+            e.labelAfter = this.storeListAll[i].labelAfter;
+            this.$nextTick(() => {
+              this.$refs["form"].clearValidate();
+            });
           }
         });
       }
@@ -137,6 +145,8 @@ export default {
         type: type,
         index: index
       };
+      cusData.splice(index, 1, ...cusData.splice(index - 1, 1, cusData[index]));
+      this.storeListAll = cusData;
       this.$emit("up", data);
     },
     // 下移
@@ -146,6 +156,8 @@ export default {
         type: type,
         index: index
       };
+      cusData.splice(index, 1, ...cusData.splice(index + 1, 1, cusData[index]));
+      this.storeListAll = cusData;
       this.$emit("down", data);
     }
   }

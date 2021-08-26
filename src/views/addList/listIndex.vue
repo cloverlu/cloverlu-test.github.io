@@ -1,6 +1,6 @@
 <template lang="pug">
 .agent-main(v-loading="loading")
-	el-form(:model="form"  :rules="rules" ref="form" label-width='140px')
+	el-form(:model="form"  :rules="rules" ref="form" label-width='140px' @submit.native.prevent)
 		el-form-item(label="类型：" prop="type")
 			el-radio-group(v-model="form.type" @change="radioChange")
 				el-radio(label="host") 主机
@@ -22,6 +22,8 @@
 				@rowDelete="rowDelete" 
 				@yes="yes"
 				@storeList="storeList"
+				@up="up"
+				@down="down"
 			)
 		.item-list(v-show="clientcodeList.length > 0 && form.type === 'network'" )
 			Customize(
@@ -130,9 +132,11 @@ export default {
           combine: combine,
           rules: clientRule,
           labelFormerRules: clientRule,
-          labelAfterRules: codeRule
+          labelAfterRules: codeRule,
+          updown: true
         };
         normalData.push(item);
+
         if (type === "SNMPclient") {
           this.form.SNMPclient = "";
         } else if (type === "SNMPcode") {
@@ -178,6 +182,14 @@ export default {
       this.$nextTick(() => {
         this.$refs["form"].clearValidate();
       });
+    },
+    // 上移
+    up(data) {
+      console.log(data);
+    },
+    // 上移
+    down(data) {
+      console.log(data);
     }
   }
 };
