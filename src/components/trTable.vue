@@ -219,7 +219,7 @@ export default {
       }
       return funcs.reduce((a, b) => (...args) => a(b(...args)));
     },
-    labelHead(h, { column, index }) {
+    labelHead(h, { column }) {
       let l = column.label.length;
       let f = 16;
       column.minWidth = f * l + 30;

@@ -279,6 +279,7 @@ export default {
     },
     // 确定修改
     yes(row, index) {
+      console.log(this.memberTable);
       this.$refs["memberTable"].validate(isv => {
         if (isv) {
           this.tableData[index].nodeName = row.nodeName;

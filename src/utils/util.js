@@ -72,4 +72,73 @@ const healthMonitor = [
   { key: "udp", label: "udp" }
 ];
 
-export { portList, loadModes, healthMonitor };
+const typeJson = [
+  {
+    id: "1",
+    type: "input",
+    field: "num",
+    title: "编号",
+    value: 1122233,
+    required: true
+  },
+  {
+    id: "2",
+    type: "input",
+    field: "amount",
+    title: "金额",
+    value: "",
+    required: true
+  },
+  {
+    id: "7",
+    type: "select",
+    field: "11",
+    title: "11",
+    value: "",
+    required: true,
+    options: [
+      {
+        title: "1",
+        value: "1"
+      },
+      {
+        title: "2",
+        value: "2"
+      }
+    ]
+  },
+  {
+    id: "3",
+    type: "input",
+    field: "use",
+    title: "用于",
+    value: "",
+    required: true
+  },
+  {
+    id: "4",
+    type: "title-small",
+    field: "",
+    title: "贷款账户",
+    value: "",
+    required: false
+  },
+  {
+    id: "5",
+    type: "input",
+    field: "account",
+    title: "开户银行",
+    value: "",
+    required: true
+  },
+  {
+    id: "6",
+    type: "input",
+    field: "userName",
+    title: "账户户名",
+    value: "",
+    required: true
+  }
+];
+
+export { portList, loadModes, healthMonitor, typeJson };
