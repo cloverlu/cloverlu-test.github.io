@@ -26,23 +26,19 @@ export default {
     if (window.onbeforeunload) {
       window.onbeforeunload = () =>
         this.leaveRadar(`${title}:window.onbeforeunload`);
-      return false;
     } else if (window.addEventListener) {
       window.addEventListener("beforeunload", () =>
         this.leaveRadar(`${title}:beforeunload`)
       );
-      return false;
     } else if (window.attachEvent) {
       window.attachEvent("beforeunload", () =>
         this.leaveRadar(`${title}:window.attachEvent:beforeunload`)
       );
-      return false;
     }
 
     // 注册onpagehide
     if (window.onpagehide) {
       window.onpagehide = () => this.leaveRadar(`${title}:window.onpagehide`);
-      return false;
     } else if (window.addEventListener) {
       window.addEventListener("pagehide", () =>
         this.leaveRadar(`${title}:pagehide`)
